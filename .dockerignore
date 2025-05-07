@@ -18,3 +18,5 @@ docs/node_modules/
 build/
 docs/build/
 docs/Dockerfile-deploy
+#custom
+.venv.*

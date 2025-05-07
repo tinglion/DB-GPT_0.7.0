@@ -82,8 +82,10 @@ class ResourcePack(Resource[PackResourceParameters]):
     def append(self, resource: Resource, overwrite: bool = False):
         """Append a resource to the pack."""
         name = resource.name
-        if name in self._resources and not overwrite:
-            raise ValueError(f"Resource {name} already exists in the pack.")
+        print(f"@sting name={name} resource={self._resources}")
+        # if name in self._resources and not overwrite:
+            # raise ValueError(f"Resource {name} already exists in the pack.")
+            # return
         self._resources[name] = resource
 
     def execute(

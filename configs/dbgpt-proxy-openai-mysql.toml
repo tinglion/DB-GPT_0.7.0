@@ -1,0 +1,62 @@
+[system]
+# Load language from environment variable(It is set by the hook)
+language = "${env:DBGPT_LANG:-en}"
+api_keys = []
+encrypt_key = "your_secret_key"
+
+# Server Configurations
+[service.web]
+host = "0.0.0.0"
+port = 5670
+
+[service.web.database]
+#type = "sqlite"
+#path = "pilot/meta_data/dbgpt.db"
+type = "mysql"
+host = "121.36.93.74"
+port = "3308"
+database = "qm_dbgpt"
+user = "root"
+password ="St@2024"
+
+[rag.storage]
+[rag.storage.vector]
+type = "chroma"
+persist_path = "pilot/data"
+
+# Model Configurations
+[models]
+[[models.llms]]
+provider = "proxy/openai"
+
+# api_base = "${env:OPENAI_API_BASE:-http://127.0.0.1:1234/v1}"
+# api_key = "${env:OPENAI_API_KEY:-xxx}"
+# name = "${env:LLM_MODEL_NAME:-gemma-3-1b-it}"
+# # name = "${env:LLM_MODEL_NAME:-deepseek-r1-distill-qwen-7b}"
+
+api_base = "http://106.39.129.42:8190/v1"
+api_key = "putibenwushu"
+#name = "qwq:latest"
+name = "qwen2.5:32b"
+#name = "deepseek-r1:32b",
+
+# api_base = "http://106.39.129.42:8280/v1"
+# api_key = "${env:OPENAI_API_KEY:-xxx}"
+# name = "qwen2.5-72b"
+
+[[models.embeddings]]
+# #name = "${env:EMBEDDING_MODEL_NAME:-text-embedding-3-small}"
+# name = "${env:EMBEDDING_MODEL_NAME:-text-embedding-nomic-embed-text-v1.5}"
+# provider = "${env:EMBEDDING_MODEL_PROVIDER:-proxy/openai}"
+# api_url = "${env:EMBEDDING_MODEL_API_URL:-http://127.0.0.1:1234/v1/embeddings}"
+# # api_url = "${env:EMBEDDING_MODEL_API_URL:-http://host.docker.internal:1234/v1/embeddings}"
+# api_key = "${env:OPENAI_API_KEY:-123}"
+
+name = "qwen2.5:32b"
+provider = "proxy/openai"
+api_url = "http://106.39.129.42:8190/v1/embeddings"
+api_key = "putibenwushu"
+
+# name = "BAAI/bge-large-zh-v1.5"
+# provider = "hf"
+# path = "models/BAAI/bge-large-zh-v1.5"

@@ -1,0 +1,45 @@
+# To run current docker compose file, you should prepare the silliconflow api key in your environment.
+# SILICONFLOW_API_KEY=${SILICONFLOW_API_KEY} docker compose up -d
+services:
+  supergateway:
+    container_name: gateway_fetcher
+    image: my-supergateway
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+        #command: --stdio "uvx mcp-server-fetch" --port 8000
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+
+  webserver:
+    container_name: dbgpt_webserver
+    image: eosphorosai/dbgpt-openai:v0.7.0
+    command: dbgpt start webserver --config /app/configs/dbgpt-proxy-openai-mysql.toml
+      #environment:
+      #- MYSQL_PASSWORD=St@2024
+      #- MYSQL_HOST=121.36.93.74
+      #- MYSQL_PORT=3308
+      #- MYSQL_DATABASE=qm_dbgpt
+      #- MYSQL_USER=root
+    volumes:
+      # - ./DB-GPT_0.7.0/configs:/app/configs
+      - ./DB-GPT_0.7.0:/app
+      # - /data:/data
+      # # May be you can mount your models to container
+      # - /data/models:/app/models
+      - dbgpt-data:/app/pilot/data
+      - dbgpt-message:/app/pilot/message
+    ports:
+      - 5670:5670/tcp
+    # depends_on:
+    #   - db
+    # webserver may be failed, it must wait all sqls in /docker-entrypoint-initdb.d execute finish.
+    restart: unless-stopped
+volumes:
+  dbgpt-data:
+  dbgpt-message:

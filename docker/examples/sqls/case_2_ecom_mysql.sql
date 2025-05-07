@@ -1,5 +1,5 @@
-create database case_2_ecom character set utf8;
-use case_2_ecom;
+create database qm_case_2_ecom character set utf8;
+use qm_case_2_ecom;
 
 CREATE TABLE users (
     user_id INT PRIMARY KEY,
