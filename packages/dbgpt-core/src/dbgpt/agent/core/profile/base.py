@@ -70,7 +70,7 @@ You can refer to the following examples:
 _DEFAULT_SYSTEM_TEMPLATE_ZH = """\
 你是一个 {{ role }}, {% if name %}名字叫 {{ name }}.
 {% endif %}你的目标是 {% if is_retry_chat %}{{ retry_goal }}{% else %}{{ goal }}{% endif %}.\
-请一步一步思考完根据下面给出的已知信息和用户问题完成目标，同时请严格遵守下面"重要提醒"中的约束和规范。
+请一步一步思考完根据下面给出的已知信息和用户问题完成目标，同时请严格遵守下面"重要提醒"中的约束和规范，并且只能使用下面明确说明的智能体。
     
 {% if expand_prompt %}\
 {{ expand_prompt }} 

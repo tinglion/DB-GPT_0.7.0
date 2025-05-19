@@ -142,7 +142,7 @@ class MultiAgents(BaseComponent, ABC):
         ).create()
 
         storage_manager = StorageManager.get_instance(self.system_app)
-        index_name = "_agent_memory_"
+        index_name = "agent_memory"
         vector_store = storage_manager.create_vector_store(index_name=index_name)
         if not vector_store.vector_name_exists():
             vector_store.create_collection(collection_name=index_name)
@@ -438,6 +438,9 @@ class MultiAgents(BaseComponent, ABC):
         agent_task = None
         default_final_message = None
         try:
+            # @sting TODO 在这里扩展query
+            user_query = user_query + f"\n数据集（collection）、crf模板列表（crfIdList）和其他过滤条件：{ext_info}"
+            print(f"sting user_query={user_query}")
             async for task, chunk, agent_conv_id in multi_agents.agent_chat_v2(
                 conv_uid,
                 current_message.chat_order,
@@ -469,8 +472,9 @@ class MultiAgents(BaseComponent, ABC):
                 if final_message:
                     current_message.add_view_message(final_message)
             else:
-                default_final_message = default_final_message.replace("data:", "")
-                current_message.add_view_message(default_final_message)
+                if default_final_message:
+                    default_final_message = default_final_message.replace("data:", "")
+                    current_message.add_view_message(default_final_message)
 
             current_message.end_current_round()
             current_message.save_to_storage()

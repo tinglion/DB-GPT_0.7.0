@@ -35,22 +35,22 @@ provider = "proxy/openai"
 # name = "${env:LLM_MODEL_NAME:-gemma-3-1b-it}"
 # # name = "${env:LLM_MODEL_NAME:-deepseek-r1-distill-qwen-7b}"
 
-# # ****** 2080 ******
-# api_base = "http://106.39.129.42:8190/v1"
-# api_key = "putibenwushu"
-# #name = "qwq:latest"
-# name = "qwen2.5:32b"
-# #name = "deepseek-r1:32b",
+# ****** 2080 ******
+api_base = "http://106.39.129.42:8190/v1"
+api_key = "putibenwushu"
+#name = "qwq:latest"
+name = "qwen2.5:32b"
+#name = "deepseek-r1:32b",
 
 # ****** 3090 ******
 # api_base = "http://106.39.129.42:8280/v1"
 # api_key = "${env:OPENAI_API_KEY:-xxx}"
 # name = "qwen2.5-72b"
 
-# ****** 4090D ******
-api_base = "http://182.18.34.131:31570/v1"
-api_key = "putibenwushu"
-name = "qwen2.5-72b"
+# # ****** 4090D ******
+# api_base = "http://182.18.34.131:31570/v1"
+# api_key = "putibenwushu"
+# name = "qwen2.5-72b"
 
 [[models.embeddings]]
 # #name = "${env:EMBEDDING_MODEL_NAME:-text-embedding-3-small}"
@@ -64,6 +64,11 @@ name = "qwen2.5:32b"
 provider = "proxy/openai"
 api_url = "http://106.39.129.42:8190/v1/embeddings"
 api_key = "putibenwushu"
+
+# name = "qwen2.5:72b"
+# provider = "proxy/openai"
+# api_url = "http://182.18.34.131:31570/v1/embeddings"
+# api_key = "putibenwushu"
 
 # name = "BAAI/bge-large-zh-v1.5"
 # provider = "hf"

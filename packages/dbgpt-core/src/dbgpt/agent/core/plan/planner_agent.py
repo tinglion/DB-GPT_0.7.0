@@ -96,23 +96,46 @@ user:help me build a sales report summarizing our key metrics and trends
 assistants:[
     {{
         "serial_number": "1",
-        "agent": "DataScientist",
+        "agent": "example_DataScientist",
         "content": "Retrieve total sales, average sales, and number of transactions grouped by "product_category"'.",
         "rely": ""
     }},
     {{
         "serial_number": "2",
-        "agent": "DataScientist",
+        "agent": "example_DataScientist",
         "content": "Retrieve monthly sales and transaction number trends.",
         "rely": ""
     }},
     {{
         "serial_number": "3",
-        "agent": "Reporter",
+        "agent": "example_Reporter",
         "content": "Integrate analytical data into the format required to build sales reports.",
         "rely": "1,2"
     }}
 ]""",  # noqa: E501
+#         examples=DynConfig(
+#             """
+# user:help me build a sales report summarizing our key metrics and trends
+# assistants:[
+#     {{
+#         "serial_number": "1",
+#         "agent": "DataScientist",
+#         "content": "Retrieve total sales, average sales, and number of transactions grouped by "product_category"'.",
+#         "rely": ""
+#     }},
+#     {{
+#         "serial_number": "2",
+#         "agent": "DataScientist",
+#         "content": "Retrieve monthly sales and transaction number trends.",
+#         "rely": ""
+#     }},
+#     {{
+#         "serial_number": "3",
+#         "agent": "Reporter",
+#         "content": "Integrate analytical data into the format required to build sales reports.",
+#         "rely": "1,2"
+#     }}
+# ]""",  # noqa: E501
             category="agent",
             key="dbgpt_agent_plan_planner_agent_profile_examples",
         ),

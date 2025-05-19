@@ -28,33 +28,45 @@ class SummaryAssistantAgent(ConversableAgent):
             key="dbgpt_agent_expand_summary_assistant_agent_profile_role",
         ),
         goal=DynConfig(
-            "Summarize answer summaries based on user questions from provided "
-            "resource information or from historical conversation memories.",
+            "Summarize and analyze the provided resource information or historical conversation memories based on user questions. "
+            "Generate concise summaries and organize relevant data, optionally presenting results through appropriate visualizations.",
             category="agent",
             key="dbgpt_agent_expand_summary_assistant_agent_profile_goal",
         ),
         constraints=DynConfig(
             [
-                "Prioritize the summary of answers to user questions from the improved "
-                "resource text. If no relevant information is found, summarize it from "
-                "the historical dialogue memory given. It is forbidden to make up your "
-                "own.",
-                "You need to first detect user's question that you need to answer with "
-                "your summarization.",
-                "Extract the provided text content used for summarization.",
-                "Then you need to summarize the extracted text content.",
-                "Output the content of summarization ONLY related to user's question. "
-                "The output language must be the same to user's question language.",
-                "If you think the provided text content is not related to user "
-                "questions at all, ONLY output 'Did not find the information you "
-                "want.'!!.",
+                "Prioritize summarizing answers to user questions using the provided resource text. If no relevant content exists, attempt to extract from historical dialogue memory.",
+                "Never fabricate information — only use what is explicitly provided or available in memory.",
+                "Identify the core question posed by the user before performing any summarization or analysis.",
+                "Extract and preprocess relevant information from input data for summarization and structured output.",
+                "Only output content directly related to the user's question, using the same language as the user’s query.",
+                "If no relevant information is found, respond with: 'Did not find the information you want.'",
+                "Perform basic data organization (e.g., categorization, tabulation) if required to support visualization decisions.",
+                "Select an appropriate display method from supported types to visualize results. If no suitable type exists, default to 'response_table'. "
+                "Supported types:\n{{ display_type }}",
+                """Please reply strictly in the following json format:
+```vis-db-chart\\n
+{
+    "display_type": "The chart rendering method selected for SQL. If you don’t know what to output, just output 'response_table' uniformly.",
+    "sql":"",
+    "data": [{},{}],
+    "thought": "Summary of thoughts to the user"
+}
+```
+        Make sure the reply content only has the correct json.""",
             ],
+            # TODO 固定输出格式
+            # markdown="```vis-db-chart\\n{
+            # "sql": "SELECT FLOOR(fd_1734072340307 / 10) * 10 AS age_group, COUNT(*) AS count FROM t_crf_123 GROUP BY age_group;",
+            # "type": "response_pie_chart",
+            # "title": "",
+            # "describe": "根据用户需求，将年龄以10岁为区间进行分组统计，并用饼图表示各年龄段的人数分布。",
+            # "data"}
             category="agent",
             key="dbgpt_agent_expand_summary_assistant_agent_profile_constraints",
         ),
         desc=DynConfig(
-            "You can summarize provided text content according to user's questions"
-            " and output the summarization.",
+            "This agent analyzes and summarizes provided or historical text data according to user questions, organizes key information, and selects appropriate visual representations to enhance understanding.",
             category="agent",
             key="dbgpt_agent_expand_summary_assistant_agent_profile_desc",
         ),
@@ -118,6 +130,15 @@ class SummaryAssistantAgent(ConversableAgent):
     ) -> AgentMessage:
         reply_message = super()._init_reply_message(received_message, rely_messages)
         reply_message.context = {
+            "display_type": """response_line_chart:used to display comparative trend analysis data
+response_pie_chart:suitable for scenarios such as proportion and distribution statistics
+response_table:suitable for display with many display columns or non-numeric columns
+response_scatter_chart:Suitable for exploring relationships between variables, detecting outliers, etc.
+response_bubble_chart:Suitable for relationships between multiple variables, highlighting outliers or special situations, etc.
+response_donut_chart:Suitable for hierarchical structure representation, category proportion display and highlighting key categories, etc.
+response_area_chart:Suitable for visualization of time series data, comparison of multiple groups of data, analysis of data change trends, etc.
+response_heatmap:Suitable for visual analysis of time series data, large-scale data sets, distribution of classified data, etc.
+""",
             "user_question": received_message.content,
         }
         return reply_message

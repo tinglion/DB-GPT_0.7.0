@@ -193,3 +193,5 @@ test_docs
 #custom
 temp
 uv.lock
+yarn.lock
+package-lock.json
